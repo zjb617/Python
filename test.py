@@ -1,40 +1,27 @@
-import tkinter as tk
-import tkinter.messagebox as mbox
+import matplotlib.pyplot as plt
+# 样式
+plt.style.use('seaborn')
+# 支持中文
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
 
-# 定义MainUI类表示应用/窗口，继承Frame类
-class MainUI(tk.Frame):
-    # Application构造函数，master为窗口的父控件
-    def __init__(self, master=None):
-        # 初始化Application的Frame部分
-        tk.Frame.__init__(self, master)
-        # 显示窗口，并使用grid布局
-        self.grid()
-        # 创建控件
-        self.createWidgets()
-
-    # 创建控件
-    def createWidgets(self):
-        # 创建一个标签，输出要显示的内容
-        self.firstLabel = tk.Label(
-            self, text="--------------Created by Al--------------")
-        # 设定使用grid布局
-        self.firstLabel.grid()
-        # 创建一个按钮，用来触发answer方法
-        self.clickButton = tk.Button(self, text="Click it!", command=self.answer)
-        # 设定使用grid布局
-        self.clickButton.grid()
-
-    def answer(self):
-        # 我们通过messagebox来显示一个提示框
-        mbox.showinfo("Al_Test", '''My QQ:2575442820''')
+x_values = range(1,1001)
+y_values = [x**2 for x in x_values]
 
 
-# 创建一个MainUI对象
-app = MainUI()
-# 设置窗口标题
-app.master.title('Al_Test')
-# 设置窗体的大小
-app.master.geometry('400x100')
-# 主循环开始
-app.mainloop()
+fig, ax = plt.subplots()
+ax.scatter(x_values, y_values, c=y_values, cmap=plt.cm.Blues, s=10)
+
+# 设置图表标题并给坐标轴加上标签。
+ax.set_title("平方数", fontsize=24)
+ax.set_xlabel("值", fontsize=14)
+ax.set_ylabel("值的平方", fontsize=14)
+
+# 设置刻度标记的大小。
+ax.tick_params(axis='both', which='major',  labelsize=14)
+
+#设置每个坐标轴的取值范围。
+ax.axis([0, 1100, 0, 1100000])
+
+plt.savefig('squares_plot.png', bbox_inches='tight')
